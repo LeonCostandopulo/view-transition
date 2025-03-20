@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {books} from "../data/books.js";
+
+const { book } = Astro.params; // recuperamos el parámetro de la URL (clean-code, design-patterns, etc.)
+
+const info = books.find(b => b.id === book); // buscamos el libro en la lista de libros
+
+if(!info){
+  return Astro.redirect('/404') // si no existe el libro, redirigimos a la página 404
+}
+---
+
+
+<Layout title=`Libro ${info.title}`>
+	<main class="m-auto max-w-4xl">
+    <header>
+      <div class="flex gap-x-4 justify-around items-center">
+        <a href="/" class="fixed left-123 top-25 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-2 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <svg class="mr-2 rotate-180 rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+          </svg>
+        </a>
+      </div>
+      <h1 
+      class="scale-50 font-black uppercase text-6xl md:text-8xl text-center py-8 px-4"
+      style=`view-transition-name: title;`
+      >
+          Libros de 
+          <span class="block text-[32px] md:text-[58px]">programación</span>
+      </h1>
+    </header>
+    <div class="grid grid-cols-[350px_1fr] gap-x-12 mt-20">
+
+      <div class="flex flex-col">
+        <picture class="mb-8 w-full relative">
+          <img 
+            class="aspect-[389/500] h-full object-cover w-full max-w-full rounded" 
+            src={info.img} 
+            alt=`Portada de ${info.title}`
+
+                                                                                                
+            style={`view-transition-name: ${info.id};`}
+                                                                                                
+          />
+
+          
+        </picture>
+        
+        <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 justify-center">
+          <svg class="w-3.5 h-3.5 mr-2" fill="currentColor" viewBox="0 0 18 21" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" >
+            <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.225v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
+          </svg>
+          Comprar ahora
+        </a>
+      </div>
+
+      <aside>
+        <h1 class="text-5xl font-black mb-4">{info.title}</h1>
+        <p class="text-lg mb-4">Opinión del libro: {info.opinion}</p>
+        <p><strong>Autor:</strong> <span class="font-semibold text-gray-800">{info.author}</span></p>
+      </aside>
+    </div>
+  </main>
+</Layout>
